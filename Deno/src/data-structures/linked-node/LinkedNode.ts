@@ -1,15 +1,15 @@
-import Node from "../node/Node";
-import Edge from "../edge/Edge";
+import Node from "../node/Node.ts";
+import Edge from "../edge/Edge.ts";
 
 export default class LinkedNode<T> extends Node<T> {
-  private _edge: Edge | null;
+  private _edge: Edge<T>;
 
   constructor(value: T) {
     super(value);
-    this._edge = null;
+    this._edge = new Edge(null);
   }
 
-  set edge(value: Edge | null) {
+  set edge(value: Edge<T>) {
     this._edge = value;
   }
 

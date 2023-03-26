@@ -1,17 +1,9 @@
-import LinkedNode from "../linked-node/LinkedNode.js";
-export default class Edge {
-  constructor(private _weight: number, private _to: LinkedNode<unknown>) {
+import LinkedNode from "../linked-node/LinkedNode.ts";
+export default class Edge<T> {
+  constructor(private _to: LinkedNode<T> | null) {
   }
 
-  set weight(value: number) {
-    this._weight = value;
-  }
-
-  get weight() {
-    return this._weight;
-  }
-
-  set to(value: LinkedNode<unknown>) {
+  set to(value: LinkedNode<T> | null) {
     this._to = value;
   }
 
