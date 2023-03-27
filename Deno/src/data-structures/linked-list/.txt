@@ -1,0 +1,23 @@
+- Add methods: 
+  - Add a linked node to the head:
+    1. Verify if the linked list is empty:
+      - If the linked list is empty:
+        1. Set the linked node as head and tail.
+      - If the linked list isn't empty:
+        1. Set the actual head as the next of the linked node.
+        2. Set the linked node as the head.
+
+  - Add an linked node to the tail:
+    1. verify if the linked list is empty:
+      - If the linked list is empty:
+        1. Set the linked node as head and tail.
+      - If the linked list isn't empty:
+        1. Set the linked node as the next of the actual tail.
+      2. Set the linked node as tail.
+
+
+
+
+- Remove the tail:
+  1. Verify if the linked list is empty:
+    - If the linked list is empty

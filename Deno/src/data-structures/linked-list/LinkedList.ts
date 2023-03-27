@@ -1,3 +1,4 @@
+"use strict";
 import LinkedNode from "../linked-node/LinkedNode.ts";
 
 export default class LinkedList<T> {
@@ -33,47 +34,44 @@ export default class LinkedList<T> {
     this.tail = value;
   }
 
-  addOneToHead(
-    linkedNode: LinkedNode<T>,
-  ) {
+  addOneToHead(linkedNode: LinkedNode<T>) {
     linkedNode.edge.to = this.head;
     this.head = linkedNode;
   }
 
-  addHead(value: T) {
-    const linkedNode = new LinkedNode(value);
+  addOneToTail(linkedNode: LinkedNode<T>) {
+    this.tail!.edge.to = linkedNode;
+    this.tail = linkedNode;
+  }
 
-    if (this.isEmpty()) {
-      this.setBoth(linkedNode);
-    } else {
-      this.addOneToHead(linkedNode);
-    }
+  addHead(value: T) {
+    this.addInstruction(value, this.addOneToHead);
   }
 
   addTail(value: T) {
+    this.addInstruction(value, this.addOneToTail);
+  }
+
+  addInstruction(value: T, blockCode: (linkedNode: LinkedNode<T>) => void) {
     const linkedNode = new LinkedNode(value);
     if (this.isEmpty()) {
       this.setBoth(linkedNode);
     } else {
-      this.tail = this.addOneToHead(linkedNode);
+      const boundBlockCode = blockCode.bind(this);
+      boundBlockCode(linkedNode);
     }
   }
-
   /**
    * Remove the node at the head of the list and return its data
    * @returns the actual head's value or undefined if there isn't head
    */
   removeHead(): T | undefined {
-    if (!this.head) return undefined;
+    if (this.isEmpty()) return undefined;
 
-    const value = this.head.data;
-    // If the head isn't the only node in the list, set the actual head's next to head
-    if (this.head.edge.to) this.head = this.head.edge.to;
-    else {
-      // If the head is the only node in the list, set both head and tail to null
-      this.head = null;
-      this.tail = null;
-    }
+    const value = this.head!.data;
+    if (this.head === this.tail) this.setBoth(null);
+    else this.head = this.head!.edge.to;
+
     return value;
   }
 
@@ -82,19 +80,17 @@ export default class LinkedList<T> {
    * @returns the actual tail's value or undefined if there isn't head
    */
   removeTail(): T | undefined {
-    if (!this.tail || !this.head) return undefined;
-    const value = this.tail.data;
-    if (this.head === this.tail) {
-      this.head = null;
-      this.tail = null;
-    } else {
-      let newTail: LinkedNode<T> = this.head;
-      while (newTail.edge.to) {
-        newTail = newTail.edge.to;
+    if (this.isEmpty()) return undefined;
+    const value = this.head!.data;
+    if (this.head === this.tail) this.setBoth(null);
+    else {
+      let penultimateLinkedNode = this.head;
+      while (penultimateLinkedNode!.edge.to != this.tail) {
+        penultimateLinkedNode = penultimateLinkedNode!.edge.to;
       }
-      newTail.edge.to = null;
-      this.tail = newTail;
-      return value;
+      penultimateLinkedNode!.edge.to = null;
+      this.tail = penultimateLinkedNode;
     }
+    return value;
   }
 }
