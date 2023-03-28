@@ -1,28 +1,20 @@
-"use strict";
-import LinkedNode from "../linked-node/LinkedNode.ts";
+'use strict';
+import LinkedNode from '../linked-node/LinkedNode.ts';
 
 export default class LinkedList<T> {
-  private _head: LinkedNode<T> | null;
-  private _tail: LinkedNode<T> | null;
+  #head: LinkedNode<T> | null;
+  #tail: LinkedNode<T> | null;
   constructor() {
-    this._head = null;
-    this._tail = null;
-  }
-
-  set head(value: LinkedNode<T> | null) {
-    this._head = value;
+    this.#head = null;
+    this.#tail = null;
   }
 
   get head() {
-    return this._head;
-  }
-
-  set tail(value: LinkedNode<T> | null) {
-    this._tail = value;
+    return this.#head;
   }
 
   get tail() {
-    return this._tail;
+    return this.#tail;
   }
 
   isEmpty() {
@@ -30,18 +22,18 @@ export default class LinkedList<T> {
   }
 
   setBoth(value: LinkedNode<T> | null) {
-    this.head = value;
-    this.tail = value;
+    this.#head = value;
+    this.#tail = value;
   }
 
   addOneToHead(linkedNode: LinkedNode<T>) {
     linkedNode.edge.to = this.head;
-    this.head = linkedNode;
+    this.#head = linkedNode;
   }
 
   addOneToTail(linkedNode: LinkedNode<T>) {
     this.tail!.edge.to = linkedNode;
-    this.tail = linkedNode;
+    this.#tail = linkedNode;
   }
 
   addHead(value: T) {
@@ -70,7 +62,7 @@ export default class LinkedList<T> {
 
     const value = this.head!.data;
     if (this.head === this.tail) this.setBoth(null);
-    else this.head = this.head!.edge.to;
+    else this.#head = this.head!.edge.to;
 
     return value;
   }
@@ -89,7 +81,7 @@ export default class LinkedList<T> {
         penultimateLinkedNode = penultimateLinkedNode!.edge.to;
       }
       penultimateLinkedNode!.edge.to = null;
-      this.tail = penultimateLinkedNode;
+      this.#tail = penultimateLinkedNode;
     }
     return value;
   }
